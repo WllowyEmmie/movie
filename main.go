@@ -22,7 +22,7 @@ func main() {
 	db := config.ConnectMongoDB()
 	_ = db
 	api := tmdb.SetUpApi()
-	server.SetUpRoutes(e, api)
+	server.SetUpRoutes(e, api, db)
 
 	port := os.Getenv("PORT")
 	if port == "" {

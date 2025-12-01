@@ -119,6 +119,56 @@ func (t *TMDbClient) SearchPerson(query string) ([]models.Actor, error) {
 	}
 	return res.Results, nil
 }
+
+func (t *TMDbClient) GetTrendingMovie() ([]models.Movie, error) {
+	type response struct {
+		Results []models.Movie
+	}
+	var res response
+	err := t.Get(("/trending/movie/week"), &res)
+	if err != nil {
+		return nil, err
+	}
+	for i := range res.Results {
+		if res.Results[i].Poster_Path != "" {
+			res.Results[i].Type, res.Results[i].Poster_Path = designateTypeAndImage(res.Results[i].Name, res.Results[i].Poster_Path)
+
+		}
+		isTV := false
+		for _, id := range res.Results[i].Genre_Ids {
+			if name := GetGenreName(id, isTV); name != "" {
+				res.Results[i].Genre = append(res.Results[i].Genre, name)
+			}
+
+		}
+	}
+	return res.Results, nil
+}
+func (t *TMDbClient) GetTrendingTV() ([]models.Movie, error) {
+	type response struct {
+		Results []models.Movie
+	}
+	var res response
+	err := t.Get(("/trending/tv/week"), &res)
+	if err != nil {
+		return nil, err
+	}
+	for i := range res.Results {
+		if res.Results[i].Poster_Path != "" {
+			res.Results[i].Type, res.Results[i].Poster_Path = designateTypeAndImage(res.Results[i].Name, res.Results[i].Poster_Path)
+
+		}
+		isTV := true
+		for _, id := range res.Results[i].Genre_Ids {
+			if name := GetGenreName(id, isTV); name != "" {
+				res.Results[i].Genre = append(res.Results[i].Genre, name)
+			}
+
+		}
+	}
+	return res.Results, nil
+}
+
 func designateTypeAndImage(name, poster_path string) (mediaType, imageUrl string) {
 	const baseImageUrl = "https://image.tmdb.org/t/p/w500"
 	if name != "" {
