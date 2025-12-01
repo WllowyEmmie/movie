@@ -78,7 +78,7 @@ func SetUpRoutes(e *echo.Echo, api *tmdb.TMDbClient, DB *mongo.Database) {
 		}
 		return c.JSONPretty(http.StatusOK, results, " ")
 	})
-	protected.GET("api/search", func(c echo.Context) error {
+	protected.GET("/search", func(c echo.Context) error {
 		query := c.QueryParam("q")
 
 		if query == "" {
@@ -116,7 +116,8 @@ func SetUpRoutes(e *echo.Echo, api *tmdb.TMDbClient, DB *mongo.Database) {
 		return c.JSONPretty(http.StatusOK, results, " ")
 	})
 	e.POST("/signup", h.Signup)
-	e.POST("/signup", h.Login)
+	e.POST("/login", h.Login)
 	protected.POST("/update/favorite", h.AddToFavorites)
 	protected.POST("/update/preferredGenre", h.UpdatePreferredGenres)
+	protected.GET("/reccomend", h.RecommendFromUserFavorites)
 }

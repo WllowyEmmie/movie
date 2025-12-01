@@ -123,7 +123,7 @@ func (h *Handler) AddToFavorites(c echo.Context) error {
 	}
 
 	movie := req.Movie
-	if movie.Name == "" {
+	if movie.Name == "" && movie.Title == "" {
 		return c.JSON(http.StatusNotAcceptable, echo.Map{"error": "Movie name is cannot be empty"})
 	}
 

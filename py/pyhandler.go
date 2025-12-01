@@ -21,14 +21,11 @@ func RecommendFromFavorites(favorites []models.Movie) ([]string, error) {
 		pyFavorites = append(pyFavorites, pyMovie)
 	}
 
-	payload, err := json.Marshal(map[string]any{
-		"movies": pyFavorites,
-		"top_k":  6,
-	})
+	payload, err := json.Marshal(pyFavorites)
 	if err != nil {
 		return nil, err
 	}
-	client := &http.Client{Timeout: 5 * time.Second}
+	client := &http.Client{Timeout: 50 * time.Second}
 	resp, err := client.Post(url, "application/json", bytes.NewBuffer(payload))
 	if err != nil {
 		return nil, err
