@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+  --color-darkPurple: #1e011e;
+  --color-lightPurple: #fec1fe;
+  --color-midPurple: #4e074e;
+  --color-blackish: #0B0B0D;
+  --color-blackpurple: #0B0B0D;
+  --color-white: #FFFFFF;
+  --color-error: #570000;
+
+  --font-montserrat: "montserrat, sans-serif";
+  --font-roboto: "roboto"
+}
+
+
+/* 🎨 Custom Colors */
+:root {
+  --dark-purple: #4e074e;
+  --mid-purple: #4e074e;
+  --light-purple: #fec1fe;
+  --dark-error: #570000;
+  --black: #0B0B0D;
+  --black: #160015;
+  --white: #FFFFFF;
+
+  --background: #ffffff;
+  --foreground: #0B0B0D;
+
+}
+
+/* 🌙 Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* 🌈 Tailwind Theme Injection */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+
+  /* Optional: Register your purples in Tailwind */
+  --color-dark-purple: var(--dark-purple);
+  --color-light-purple: var(--light-purple);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
